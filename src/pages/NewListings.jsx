@@ -7,13 +7,13 @@ function NewListings() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    cryptoAPI
-      .getNewListings()
-      .then(setCoins)
-      .catch(() => setError("Failed to load new listings."))
-      .finally(() => setLoading(false));
-  }, []);
+ useEffect(() => {
+  cryptoAPI
+    .getGainers()
+    .then(setGainers)
+    .catch(() => {}) // silently fail — empty state handles it
+    .finally(() => setLoading(false));
+ }, []);
 
   const formatDate = (dateStr) =>
     new Date(dateStr).toLocaleDateString("en-US", {
@@ -29,11 +29,7 @@ function NewListings() {
         Most recently added cryptocurrencies, sorted from newest to oldest.
       </p>
 
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm">
-          {error}
-        </div>
-      )}
+      
 
       {loading ? (
         <div className="space-y-3">

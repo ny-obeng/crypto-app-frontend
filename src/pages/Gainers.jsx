@@ -8,12 +8,12 @@ function Gainers() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    cryptoAPI
-      .getGainers()
-      .then(setGainers)
-      .catch(() => setError("Failed to load gainers."))
-      .finally(() => setLoading(false));
-  }, []);
+  cryptoAPI
+    .getGainers()
+    .then(setGainers)
+    .catch(() => {}) // silently fail — empty state handles it
+    .finally(() => setLoading(false));
+}, []);
 
   return (
     <div className="px-6 md:px-16 py-16 max-w-4xl mx-auto">
@@ -22,12 +22,7 @@ function Gainers() {
         Cryptocurrencies with the highest 24h price increase, sorted from highest to lowest.
       </p>
 
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm">
-          {error}
-        </div>
-      )}
-
+      
       {loading ? (
         <div className="space-y-3">
           {Array.from({ length: 6 }).map((_, i) => (
