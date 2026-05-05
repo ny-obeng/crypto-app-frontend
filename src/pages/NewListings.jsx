@@ -9,11 +9,11 @@ function NewListings() {
 
  useEffect(() => {
   cryptoAPI
-    .getGainers()
-    .then(setGainers)
-    .catch(() => {}) // silently fail — empty state handles it
+    .getNewListings()
+    .then(setCoins)
+    .catch(() => setCoins([]))
     .finally(() => setLoading(false));
- }, []);
+}, []);
 
   const formatDate = (dateStr) =>
     new Date(dateStr).toLocaleDateString("en-US", {
