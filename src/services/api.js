@@ -17,20 +17,33 @@ export const authAPI = {
 // ── Crypto ───────────────────────────────────────────────────────────────────
 export const cryptoAPI = {
   getMarkets: (page = 1, perPage = 50) =>
-    api.get("/crypto/markets", { params: { page, per_page: perPage } }).then((r) => r.data),
+    axios.get("https://api.coingecko.com/api/v3/coins/markets", {
+      params: {
+        vs_currency: "usd",
+        order: "market_cap_desc",
+        per_page: perPage,
+        page,
+        sparkline: false,
+        price_change_percentage: "24h",
+      }
+    }).then((r) => r.data),
 
-  getCoin: (id) => api.get(`/crypto/coin/${id}`).then((r) => r.data),
+  getCoin: (id) =>
+    axios.get(`https://api.coingecko.com/api/v3/coins/${id}`, {
+      params: { localization: false, tickers: false, community_data: false, developer_data: false }
+    }).then((r) => r.data),
 
   getChart: (id, days = 7) =>
-    api.get(`/crypto/chart/${id}`, { params: { days } }).then((r) => r.data),
+    axios.get(`https://api.coingecko.com/api/v3/coins/${id}/market_chart`, {
+      params: { vs_currency: "usd", days }
+    }).then((r) => r.data),
 
   search: (query) =>
-    api.get("/crypto/search", { params: { query } }).then((r) => r.data),
+    axios.get("https://api.coingecko.com/api/v3/search", { params: { query } })
+      .then((r) => r.data.coins.slice(0, 10)),
 
   getGainers: () => api.get("/crypto/gainers").then((r) => r.data),
-
   getNewListings: () => api.get("/crypto/new").then((r) => r.data),
-
   addCrypto: (data) => api.post("/crypto", data).then((r) => r.data),
 };
 
